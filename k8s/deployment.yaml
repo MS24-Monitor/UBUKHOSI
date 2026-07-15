@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubukhosi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubukhosi
+  template:
+    metadata:
+      labels:
+        app: ubukhosi
+    spec:
+      containers:
+        - name: ubukhosi
+          image: ubukhosi:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: JWT_SECRET
+              value: change-me
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ubukhosi
+spec:
+  selector:
+    app: ubukhosi
+  ports:
+    - port: 80
+      targetPort: 3000
